@@ -1,7 +1,8 @@
 import subprocess
 from flask import Flask
-from subprocess import run # run script to load tables in
+# from subprocess import run # run script to load tables in
 import pymysql
+import os
 
 
 app = Flask(__name__)
@@ -10,11 +11,11 @@ app = Flask(__name__)
 def index():
     print("Enter password:")
     password = input()
-    subprocess.call("mysql -u root -p"+ password +" < .\\b.sql ")
+    os.system("mysql -u root -p"+ password +" < .\\b.sql ")
 
     db = pymysql.connect("localhost", "user1", "PASSWORD", "ece464")
 
-    subprocess.call("mysql -u root -p" + password + " < .\\schema.sql")
+    os.system("mysql -u root -p" + password + " < .\\schema.sql")
 
     return "success"
 

@@ -1,3 +1,4 @@
+USE ece464;
 create table Stores(
     store_id INT NOT NULL AUTO_INCREMENT,
     store_name VARCHAR(100) NOT NULL,
