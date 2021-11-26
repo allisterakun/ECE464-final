@@ -13,7 +13,7 @@ def index():
     password = input()
     os.system("mysql -u root -p"+ password +" < .\\b.sql ")
 
-    db = pymysql.connect("localhost", "user1", "PASSWORD", "ece464")
+    # db = pymysql.connect("localhost", "user1", "PASSWORD", "ece464")
 
     os.system("mysql -u root -p" + password + " < .\\schema.sql")
 
