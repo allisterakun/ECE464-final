@@ -24,7 +24,8 @@ def index():
 given employee id, username, password
 query for a match
 if no match ask for info again / try again
-if match get their role/position then move onto the correct page
+if match get their role/position then get a session and move onto the correct page
+
 
     on the frontend
     employee should then be able to
@@ -34,6 +35,10 @@ if match get their role/position then move onto the correct page
     manager
         employee time sheets -> take them to timesheets page
 
+"""
+"""### Logout route
+redirect to login page
+delete the session
 """
 """### Add a timesheet card
 we already have the employee id from class
