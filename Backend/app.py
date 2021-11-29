@@ -1,24 +1,49 @@
 import subprocess
-from flask import Flask
+from flask import Flask, request, json
 # from subprocess import run # run script to load tables in
-import pymysql
+# import pymysql
+from flaskext.mysql import MySQL
+from dotenv import load_dotenv
 import os
 
+load_dotenv()
+db_user = os.environ.get("MYSQL_DATABASE_USER")
+db_password = os.environ.get("PASSWORD")
+db_name = os.environ.get("MYSQL_DATABASE_DB")
+db_host = os.environ.get("MYSQL_DATABASE_HOST")
 
 app = Flask(__name__)
+
+app.config['MYSQL_DATABASE_USER'] = db_user
+app.config['MYSQL_DATABASE_PASSWORD'] = db_password
+app.config['MYSQL_DATABASE_DB'] = db_name
+app.config['MYSQL_DATABASE_HOST'] = db_host
+
+mysql = MySQL(app)
+
 
 @app.route("/")
 def index():
     print("Enter password:")
     password = input()
     os.system("mysql -u root -p"+ password +" < .\\b.sql ")
-
-    # db = pymysql.connect("localhost", "user1", "PASSWORD", "ece464")
-
     os.system("mysql -u root -p" + password + " < .\\schema.sql")
-
     return "success"
 
+@app.route("/login", methods = ["GET", "POST"])
+def login():
+    _id = request.form["inputId"]
+    _username = request.form["inputUsername"]
+    _password = request.form["inputPassword"]
+
+    if _id and _username and _password:
+        conn = mysql.connect()
+        
+        return "success"
+
+
+    else:
+        return json.dumps({'html':'<span>Enter the required fields</span>'})
 
 """### Login route
 given employee id, username, password
@@ -36,16 +61,27 @@ if match get their role/position then get a session and move onto the correct pa
         employee time sheets -> take them to timesheets page
 
 """
+
+
+
+
+
+
 """### Logout route
 redirect to login page
 delete the session
 """
+@app.route("/logout")
+def logout():
+    pass
+
 """### Add a timesheet card
 we already have the employee id from class
 given a work date, clock in time, clock out time, items sold
 
 insert it
 """
+
 """### Restock
 given product_id and some quantity, todays date
 
@@ -53,6 +89,7 @@ insert
     look for the product id and update quantity by adding the current quantity with the given quantity
 
 """
+
 """### Sell
 given a product id, quantity, price to sell at
 
@@ -62,9 +99,9 @@ if we can sell then subtract the given quantity from the Inventory and add the g
     insert price sold at, quantity given, todays date into purchases
 
 """
-"""### Update expiration date
-given a product id and a new date do a PUT request
 
+"""### Update expiration date
+given a product id and a new date do a PUT request, just update the value in the table
 """
 
 

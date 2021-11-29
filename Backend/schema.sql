@@ -17,7 +17,6 @@ create table if not exists Login_(
     employee_id INT,
     username VARCHAR(100) NOT NULL,
     password VARCHAR(50) NOT NULL,
-    position VARCHAR(40),
     PRIMARY KEY ( employee_id ),
     FOREIGN KEY (employee_id) REFERENCES Employees(employee_id) ON DELETE CASCADE
 );
