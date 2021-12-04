@@ -8,7 +8,7 @@
 
       <section>
         <h3 class="loginSubtitle">Password:</h3>
-        <input class="loginInput" v-model="Password" placeholder="Enter Password">
+        <input class="loginInput" v-model="Password" type="password" placeholder="Enter Password">
       </section>
 
       <b-button v-on:click="login">Login</b-button>
