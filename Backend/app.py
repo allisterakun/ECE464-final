@@ -1,18 +1,23 @@
-import subprocess
-from flask import Flask, request, json
-# from subprocess import run # run script to load tables in
-# import pymysql
+from flask import Flask, request, json, session, render_template, redirect, url_for
 from flaskext.mysql import MySQL
 from dotenv import load_dotenv
 import os
+import db_setup # has our script to setup the database
+import queries as q # has our SQL queries since we dont want to clog up app.py
+
+# import subprocess
+# from subprocess import run # run script to load tables in
+# import pymysql
+# from pymysql import cursors
 
 load_dotenv()
 db_user = os.environ.get("MYSQL_DATABASE_USER")
-db_password = os.environ.get("PASSWORD")
+db_password = os.environ.get("MYSQL_DATABASE_PASSWORD")
 db_name = os.environ.get("MYSQL_DATABASE_DB")
 db_host = os.environ.get("MYSQL_DATABASE_HOST")
 
 app = Flask(__name__)
+app.run()
 
 app.config['MYSQL_DATABASE_USER'] = db_user
 app.config['MYSQL_DATABASE_PASSWORD'] = db_password
@@ -23,27 +28,29 @@ mysql = MySQL(app)
 
 
 @app.route("/")
-def index():
-    print("Enter password:")
-    password = input()
-    os.system("mysql -u root -p"+ password +" < .\\b.sql ")
-    os.system("mysql -u root -p" + password + " < .\\schema.sql")
-    return "success"
-
-@app.route("/login", methods = ["GET", "POST"])
+@app.route("/login")
 def login():
-    _id = request.form["inputId"]
-    _username = request.form["inputUsername"]
-    _password = request.form["inputPassword"]
+    # db_setup.setup()
 
-    if _id and _username and _password:
-        conn = mysql.connect()
-        
-        return "success"
+    msg = ""
 
+    _id = request.args.get("inputId")
+    _username = request.args.get("inputUsername")
+    _password = request.args.get("inputPassword")
 
+    cursor = mysql.connect().cursor()
+    cursor.execute("SELECT * FROM Login_ WHERE username ='" + _username + "' and password ='" + _password + "'")
+    data = cursor.fetchone()
+
+    if data:
+        msg = "mlem"
+        return render_template("index.html", msg = msg)
     else:
+        # return render_template("index.html", msg = msg)
+        # return "test"
+
         return json.dumps({'html':'<span>Enter the required fields</span>'})
+
 
 """### Login route
 given employee id, username, password
@@ -73,7 +80,7 @@ delete the session
 """
 @app.route("/logout")
 def logout():
-    pass
+    return redirect(url_for('login'))
 
 """### Add a timesheet card
 we already have the employee id from class
@@ -116,5 +123,5 @@ query for all the employee's pay for a given week from today and back
 
 """
 
-if __name__ == "__main__":
-    app.run()
+#if __name__ == "__main__":
+#    app.run()

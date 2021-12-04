@@ -31,6 +31,7 @@ create table if not exists Timesheet(
 );
 create table if not exists ItemTypes(
     item_type_id INT NOT NULL,
+    item_type VARCHAR(100) NOT NULL,
     PRIMARY KEY ( item_type_id )
 );
 create table if not exists Products(
