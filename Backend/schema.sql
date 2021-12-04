@@ -46,8 +46,6 @@ create table if not exists Inventory(
     product_id INT,
     store_id INT,
     quantity INT NOT NULL,
-    shipment_date DATE NOT NULL,
-    expiration_date DATE NOT NULL,
     PRIMARY KEY ( store_id, product_id ),
     FOREIGN KEY (product_id) REFERENCES Products( product_id ),
     FOREIGN KEY (store_id) REFERENCES Stores( store_id )
