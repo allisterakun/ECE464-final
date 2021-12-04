@@ -4,8 +4,6 @@ from flaskext.mysql import MySQL
 from dotenv import load_dotenv
 import os
 
-from pymysql import cursors
-
 import db_setup # has our script to setup the database
 import queries as q # has our SQL queries since we dont want to clog up app.py
 
