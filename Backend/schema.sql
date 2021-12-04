@@ -1,11 +1,11 @@
 USE ece464;
 create table if not exists Stores(
-    store_id INT NOT NULL AUTO_INCREMENT,
+    store_id INT NOT NULL,
     store_name CHAR(100) NOT NULL,
     PRIMARY KEY ( store_id )
 );
 create table if not exists Employees(
-    employee_id INT NOT NULL AUTO_INCREMENT,
+    employee_id INT NOT NULL,
     employee_name CHAR(100) NOT NULL,
     store_id INT,
     position CHAR(40) NOT NULL,

@@ -1,3 +1,5 @@
+USE ece464;
+
 insert into Stores values (1, "Key Food");
 insert into Stores values (2, "Giant Food");
 insert into Stores values (3, "Food Lion");

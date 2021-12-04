@@ -36,7 +36,7 @@ def login():
 
     msg = ""
 
-    _id = request.args.get("inputId")
+    # _id = request.args.get("inputId")
     _username = request.args.get("inputUsername")
     _password = request.args.get("inputPassword")
 
@@ -45,14 +45,15 @@ def login():
     data = cursor.fetchone()
 
     if data:
-        msg = "mlem"
         # session["id"] = _id
         # session["store_id"] = 
-        return render_template("index.html", msg = msg)
+        return json.jsonify({"statusCode": "200"})
+        # msg = "mlem"
+        # return render_template("index.html", msg = msg)
     else:
         # return render_template("index.html", msg = msg)
         # return "test"
-        return json.jsonify(data)
+        return json.jsonify({"statusCode": "401"})
 
 
 """### Login route
