@@ -1,17 +1,14 @@
 <template>
   <div id="app">
-    <login/>
+    <router-view></router-view>
   </div>
+  
 </template>
 
 <script>
-import Login from './components/Login.vue'
 
 export default {
   name: 'App',
-  components: {
-    Login
-  }
 }
 </script>
 
@@ -23,5 +20,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  
 }
+
 </style>
