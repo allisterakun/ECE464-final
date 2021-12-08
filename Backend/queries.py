@@ -1,6 +1,8 @@
 def getPosition(cursor, _id):
+    cursor.execute("SELECT position FROM Employees WHERE employee_id = '" + _id + "'")
+    position = cursor.fetchone()
+    return position
     # return str(position)
-    pass
 
 def add_timesheet(cursor, _id, work_date, clock_in_time, clock_out_time, items_sold):
     # return None
