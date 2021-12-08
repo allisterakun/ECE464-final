@@ -17,9 +17,11 @@ db_user = os.environ.get("MYSQL_DATABASE_USER")
 db_password = os.environ.get("MYSQL_DATABASE_PASSWORD")
 db_name = os.environ.get("MYSQL_DATABASE_DB")
 db_host = os.environ.get("MYSQL_DATABASE_HOST")
+db_secret = os.environ.get("SECRET")
 
 app = Flask(__name__)
 app.run()
+app.secret_key = db_secret
 
 app.config['MYSQL_DATABASE_USER'] = db_user
 app.config['MYSQL_DATABASE_PASSWORD'] = db_password
@@ -29,38 +31,11 @@ app.config['MYSQL_DATABASE_HOST'] = db_host
 mysql = MySQL(app)
 
 
-@app.route("/")
-@app.route("/login")
-def login():
-    # db_setup.setup()
-
-    msg = ""
-
-    # _id = request.args.get("inputId")
-    _username = request.args.get("inputUsername")
-    _password = request.args.get("inputPassword")
-
-    cursor = mysql.connect().cursor()
-    cursor.execute("SELECT * FROM Login_ WHERE username ='" + _username + "' and password ='" + _password + "'")
-    data = cursor.fetchone()
-
-    if data:
-        # session["id"] = _id
-        # session["store_id"] = 
-        return json.jsonify({"statusCode": "200"})
-        # msg = "mlem"
-        # return render_template("index.html", msg = msg)
-    else:
-        # return render_template("index.html", msg = msg)
-        # return "test"
-        return json.jsonify({"statusCode": "401"})
-
-
 """### Login route
-given employee id, username, password
+given username, password
 query for a match
 if no match ask for info again / try again
-if match get their role/position then get a session and move onto the correct page
+if match then get a session to save employee_id and move onto the correct page
 
 
     on the frontend
@@ -72,6 +47,35 @@ if match get their role/position then get a session and move onto the correct pa
         employee time sheets -> take them to timesheets page
 
 """
+@app.route("/")
+@app.route("/login")
+def login():
+    # db_setup.setup()
+
+    # msg = ""
+
+    _username = request.args.get("inputUsername")
+    _password = request.args.get("inputPassword")
+
+    cursor = mysql.connect().cursor()
+    cursor.execute("SELECT * FROM Login_ WHERE username ='" + _username + "' and password ='" + _password + "'")
+    data = cursor.fetchone()
+
+    if data:
+        # get employee_id, store_id
+        temp = cursor.execute("SELECT employee_id FROM Login_ WHERE username ='" + _username + "' and password ='" + _password + "'")
+        session["employee_id"] = json.dumps(temp)
+        temp = cursor.execute("SELECT store_id FROM Employees WHERE employee_id = '" + session["employee_id"] + "'")
+        session["store_id"] = json.dumps(temp)
+
+        return json.jsonify({"statusCode": "200"})
+        # msg = "mlem"
+        # return render_template("index.html", msg = msg)
+    else:
+        # return render_template("index.html", msg = msg)
+        # return "test"
+        return json.jsonify({"statusCode": "401"})
+
 
 """
 Determine the correct homepage
