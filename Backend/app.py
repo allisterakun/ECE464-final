@@ -186,26 +186,36 @@ query for all the employee's pay for a given week from today and back
 def getAllPay():
     pass
     # parse for a start and end date
+    # start_date = request.json("start_date")
+    # end_date = request.json("end_date")
+    start_date = request.args.get("start_date")
+    end_date = request.args.get("end_date")
 
     # call getPay()
+    total = getPay(start_date, end_date)
 
     # return the total
+    return json.jsonify({"total": total})
+
 
 def getPay(start_date, end_date):
 
+    # find the total costs: what manager has to pay
     cursor = mysql.connect().cursor()
-    q.get_all_salary_info(cursor, start_date, end_date)
-    # python logic to find the total costs
-
+    salary_info = q.get_all_salary_info(cursor, start_date, end_date)
+    
     # return total cost
-    return 
+    return sum(salary_info.values())
 
 
 """Get Profit"""
 @app.route("/getProfit", methods = ["GET"])
 def getProfit():
     # parse
-    
+    # start_date = request.json("start_date")
+    # end_date = request.json("end_date")
+    start_date = request.args.get("start_date")
+    end_date = request.args.get("end_date")
 
     # get all the prices sold within the start and end date - call getPay
         # return the difference, ie the profit and return it, jsonified
