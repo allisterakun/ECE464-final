@@ -26,7 +26,7 @@ create table if not exists Timesheet(
     clock_in_time TIME,
     clock_out_time TIME,
     items_sold INT NOT NULL,
-    PRIMARY KEY ( employee_id ),
+    PRIMARY KEY ( employee_id, work_date ),
     FOREIGN KEY (employee_id) REFERENCES Employees(employee_id) ON DELETE CASCADE
 );
 create table if not exists ItemTypes(

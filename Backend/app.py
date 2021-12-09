@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import datetime
 from flask import Flask, request, json, session, render_template, redirect, url_for, jsonify
 from flaskext.mysql import MySQL
 from dotenv import load_dotenv
@@ -54,18 +54,22 @@ def login():
 
     # msg = ""
 
+    # _username = request.json("inputUsername")
+    # _password = request.json("inputPassword")
     _username = request.args.get("inputUsername")
     _password = request.args.get("inputPassword")
-
+    
     cursor = mysql.connect().cursor()
     cursor.execute("SELECT * FROM Login_ WHERE username ='" + _username + "' and password ='" + _password + "'")
     data = cursor.fetchone()
+    print(data)
 
     if data:
         # get employee_id, store_id
-        temp = cursor.execute("SELECT employee_id FROM Login_ WHERE username ='" + _username + "' and password ='" + _password + "'")
-        session["employee_id"] = json.dumps(temp)
-        temp = cursor.execute("SELECT store_id FROM Employees WHERE employee_id = '" + session["employee_id"] + "'")
+        session["employee_id"] = data[0]
+        
+        cursor = mysql.connect().cursor()
+        temp = cursor.execute("SELECT store_id FROM Employees WHERE employee_id = '" + str(session["employee_id"]) + "'")
         session["store_id"] = json.dumps(temp)
 
         return json.jsonify({"statusCode": "200"})
@@ -83,10 +87,9 @@ Determine the correct homepage
 @app.route("/home")
 def homepage():
     
-    _id = session["id"]
+    _id = session["employee_id"]
     cursor = mysql.connect().cursor()
-    return jsonify({"position": q.getPosition(cursor, _id)})
-
+    return jsonify({"position": q.getPosition(cursor, _id)[0]})
 
 
 """### Logout route
@@ -95,7 +98,11 @@ delete the session
 """
 @app.route("/logout")
 def logout():
-    return redirect(url_for('login'))
+    session.pop("employee_id", None)
+    session.pop("store_id", None)
+    return json.jsonify({"statusCode": "200"})
+    # return redirect(url_for('login'))
+
 
 """### Add a timesheet card
 we already have the employee id from class
@@ -105,15 +112,24 @@ insert it
 """
 @app.route("/newTimesheet", methods = ["POST"])
 def createTimesheet():
-    _id = session["id"]
+    
     # parse from frontend POST request
+    work_date = request.json("work_date")
+    clock_in_time = request.json("clock_in_time")
+    clock_out_time = request.json("clock_out_time")
+    items_sold = request.json("items_sold")
 
+    _id = session["employee_id"]
+    # current_date = datetime.now().date()
+    
     # insert into db
-    cursor = mysql.connect().cursor() 
+    cursor = mysql.connect().cursor()
     q.add_timesheet(cursor, _id, work_date, clock_in_time, clock_out_time, items_sold)
+    # insert into Timesheet values (1, 2021-12-08, 22:00, 22:00, 12); 
 
     # return status code
-    return 
+    return json.jsonify({"statusCode": "200"})
+
 
 """
 Review your own timesheet
@@ -121,15 +137,14 @@ Review your own timesheet
 """
 @app.route("/getTimesheet", methods = ["GET"])
 def getTimesheet():
-    _id = session["id"]
+    _id = session["employee_id"]
     
     # get all the timesheets for the current employee
     cursor = mysql.connect().cursor() 
-    q.get_timesheet(cursor, _id)
-
-
+    data = q.get_timesheet(cursor, _id)
+    
     # return a table
-    return
+    return jsonify(data)
 
 
 """
@@ -138,17 +153,24 @@ Review all timesheets
 @app.route("/getAllTimesheet", methods = ["GET"])
 def getAllTimesheets():
 
-    _id = session["id"]
+    _id = session["employee_id"]
+
     cursor = mysql.connect().cursor()
-    if q.getPosition(cursor, _id) == "Manager":
+    if q.getPosition(cursor, _id)[0] == "Manager":
         
         # parse then return
-        return q.get_all_timesheets(cursor, start_date, end_date)
+        start_date = request.args.get("start_date")
+        end_date = request.args.get("end_date")
+        # start_date = request.json("start_date")
+        # end_date = request.json("end_date")
+        
+        data = q.get_all_timesheets(cursor, start_date, end_date)
+
+        return json.dumps(data)
         
     else:
         # error not a manager, status code
-        pass
-
+        return json.jsonify({"statusCode": "405"})
 
 
 """### Get amount to pay employee
@@ -170,7 +192,8 @@ def getAllPay():
     # return the total
 
 def getPay(start_date, end_date):
-    
+
+    cursor = mysql.connect().cursor()
     q.get_all_salary_info(cursor, start_date, end_date)
     # python logic to find the total costs
 
@@ -186,6 +209,7 @@ def getProfit():
 
     # get all the prices sold within the start and end date - call getPay
         # return the difference, ie the profit and return it, jsonified
+    cursor = mysql.connect().cursor()
     q.getSoldAmountTotal(cursor, session["store_id"], start_date, end_date) - getPay(start_date, end_date)
 
 
@@ -197,6 +221,7 @@ def getInventory():
 
     # if no item_type (string)
         # get all inventory
+        cursor = mysql.connect().cursor()
         q.get_inventory_general(cursor, store_id)
         # return jsonify of table
     
@@ -222,7 +247,7 @@ def sell():
     # parse for quantity, product_name
     # _quantity = 
     _store_id = session["store_id"]
-    _employee_id = session["id"]
+    _employee_id = session["employee_id"]
     
 
     # lookup the product_id and sell_price based on the product_name, parse into two variables: product_id and selling price
