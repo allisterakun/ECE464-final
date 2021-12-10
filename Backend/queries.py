@@ -30,10 +30,10 @@ def get_timesheet(cursor, _id):
     # return table (work_date DATE, clock_in_time TIME, clock_out_time TIME, items_sold INT)
     
 
-def get_all_timesheets(cursor, start_date, end_date):
+def get_all_timesheets(cursor, store_id, start_date, end_date):
     cursor.execute("SELECT employee_name, work_date, clock_in_time, clock_out_time, items_sold, salary \
                     FROM Timesheet JOIN Employees ON Timesheet.employee_id = Employees.employee_id \
-                    WHERE work_date BETWEEN '" + str(start_date) + "' AND '" + str(end_date) + "';")
+                    WHERE store_id = "+ str(store_id) + " AND work_date BETWEEN '" + str(start_date) + "' AND '" + str(end_date) + "';")
     row_headers = [x[0] for x in cursor.description] # get row headers
     rows = cursor.fetchall()
 
@@ -52,10 +52,10 @@ def get_all_timesheets(cursor, start_date, end_date):
     # return table (employee_name STRING, work_date DATE, clock_in_time TIME, clock_out_time TIME, items_sold INT)
 
 
-def get_all_salary_info(cursor, start_date, end_date):
+def get_all_salary_info(cursor, store_id, start_date, end_date):
     cursor.execute("SELECT employee_name, work_date, ABS(TIMESTAMPDIFF(HOUR, clock_out_time, clock_in_time)) AS shift_hours, salary \
                     FROM Timesheet JOIN Employees ON Timesheet.employee_id = Employees.employee_id \
-                    WHERE work_date BETWEEN '" + str(start_date) + "' AND '" + str(end_date) + "';")
+                    WHERE store_id = "+ str(store_id) + " AND work_date BETWEEN '" + str(start_date) + "' AND '" + str(end_date) + "';")
     row_headers = [x[0] for x in cursor.description]
     rows = cursor.fetchall()
     
@@ -67,7 +67,7 @@ def get_all_salary_info(cursor, start_date, end_date):
                             row_headers[2]: row[2],
                             row_headers[3]: row[3]
                         })
-                        
+
     salary_info = {}
     for row in json_data:
         if row["employee_name"] not in salary_info:
@@ -82,8 +82,19 @@ def get_all_salary_info(cursor, start_date, end_date):
 
 
 def getSoldAmountTotal(cursor, store_id, start_date, end_date):
+    cursor.execute("SELECT price_sold_at, quantity \
+                    FROM Purchases \
+                    WHERE store_id = '" + str(store_id) + "' \
+                        AND purchase_date BETWEEN '" + str(start_date) + "' and '" + str(end_date) + "';")
+    
+    data = cursor.fetchall()
+    total = 0
+
+    for row in data:
+        total += row[0] * row[1]
+    
+    return total
     # return table and do it in python (price_sold_at INT, quantity INT)
-    pass
 
 def get_inventory_general(cursor, store_id):
     # join products and inventory on product_id

@@ -154,6 +154,7 @@ Review all timesheets
 def getAllTimesheets():
 
     _id = session["employee_id"]
+    store_id = session["store_id"]
 
     cursor = mysql.connect().cursor()
     if q.getPosition(cursor, _id)[0] == "Manager":
@@ -164,7 +165,7 @@ def getAllTimesheets():
         # start_date = request.json("start_date")
         # end_date = request.json("end_date")
         
-        data = q.get_all_timesheets(cursor, start_date, end_date)
+        data = q.get_all_timesheets(cursor, store_id, start_date, end_date)
 
         return json.dumps(data)
         
@@ -184,25 +185,27 @@ query for all the employee's pay for a given week from today and back
 """
 @app.route("/getAllPay", methods = ["GET"])
 def getAllPay():
-    pass
+
     # parse for a start and end date
     # start_date = request.json("start_date")
     # end_date = request.json("end_date")
     start_date = request.args.get("start_date")
     end_date = request.args.get("end_date")
 
+    store_id = session["store_id"]
+
     # call getPay()
-    total = getPay(start_date, end_date)
+    total = getPay(store_id, start_date, end_date)
 
     # return the total
     return json.jsonify({"total": total})
 
 
-def getPay(start_date, end_date):
+def getPay(store_id, start_date, end_date):
 
     # find the total costs: what manager has to pay
     cursor = mysql.connect().cursor()
-    salary_info = q.get_all_salary_info(cursor, start_date, end_date)
+    salary_info = q.get_all_salary_info(cursor, store_id, start_date, end_date)
     
     # return total cost
     return sum(salary_info.values())
@@ -220,9 +223,9 @@ def getProfit():
     # get all the prices sold within the start and end date - call getPay
         # return the difference, ie the profit and return it, jsonified
     cursor = mysql.connect().cursor()
-    q.getSoldAmountTotal(cursor, session["store_id"], start_date, end_date) - getPay(start_date, end_date)
+    profit = q.getSoldAmountTotal(cursor, session["store_id"], start_date, end_date) - getPay(session["store_id"], start_date, end_date)
 
-
+    return json.jsonify({"profit": profit})
 
 """Get Inventory"""
 @app.route("/getInventory")

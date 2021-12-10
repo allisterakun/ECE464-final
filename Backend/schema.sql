@@ -53,9 +53,11 @@ create table if not exists Inventory(
 create table if not exists Purchases(
     product_id INT,
     employee_id INT,
+    store_id INT,
     purchase_date DATE NOT NULL,
     price_sold_at FLOAT(5,2),
     quantity INT NOT NULL,
     PRIMARY KEY (purchase_date, product_id),
+    FOREIGN KEY (store_id) REFERENCES Stores( store_id ),
     FOREIGN KEY (employee_id) REFERENCES Employees(employee_id) ON DELETE CASCADE
 );
