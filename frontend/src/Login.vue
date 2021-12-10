@@ -18,7 +18,7 @@
 </template>
 
 <script>
-
+import post from './utili.js'
 export default {
   name: 'Login',
   data:function(){
@@ -29,10 +29,19 @@ export default {
   },
   methods:{
     login(){
+      post(
+        {
+          inputName:this.UserName,
+          inputPassword:this.Password
+        }
+      )
+        
       this.$router.push('/homepageM')
     }
   }
 }
+
+
 </script>
 
 <style>
