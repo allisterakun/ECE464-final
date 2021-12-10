@@ -35,7 +35,9 @@ export default {
           inputPassword:this.Password
         }
       )
-        
+
+      this.$cookie.set('test', 'Hello world!', 1);
+      console.log(this.$cookie.get('test'));
       this.$router.push('/homepageM')
     }
   }
