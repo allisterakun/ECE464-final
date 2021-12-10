@@ -62,7 +62,6 @@ def login():
     cursor = mysql.connect().cursor()
     cursor.execute("SELECT * FROM Login_ WHERE username ='" + _username + "' and password ='" + _password + "'")
     data = cursor.fetchone()
-    print(data)
 
     if data:
         # get employee_id, store_id
@@ -167,7 +166,7 @@ def getAllTimesheets():
         
         data = q.get_all_timesheets(cursor, store_id, start_date, end_date)
 
-        return json.dumps(data)
+        return json.jsonify(data)
         
     else:
         # error not a manager, status code
@@ -227,23 +226,40 @@ def getProfit():
 
     return json.jsonify({"profit": profit})
 
-"""Get Inventory"""
-@app.route("/getInventory")
+
+"""### Get Inventory
+Given an item_type, theres only three (drink, fruit, meat)
+    get all items in the current employee's store where the item_type matches
+
+If there is no item_type get the entire store inventory
+
+"""
+@app.route("/getInventory", methods = ["GET"])
 def getInventory():
     # parse item_type (string)
+    # item_type = request.json("item_type")
+    item_type = request.args.get("item_type")
+
+    store_id = session["store_id"]
 
     # if no item_type (string)
+    if item_type is None:
         # get all inventory
         cursor = mysql.connect().cursor()
-        q.get_inventory_general(cursor, store_id)
+        data = q.get_inventory_general(cursor, store_id)
+
         # return jsonify of table
-    
+        return json.jsonify(data)
+
     # else get specific inventory
-        product_id = q.get_product_info(cursor, product_name)
-        q.get_inventory_specific_product(cursor, store_id, product_id)
+    else:
+        mappings = {"fruit": 1, "meat": 2, "drink": 3}
+        cursor = mysql.connect().cursor()
+        product_ids = q.get_product_info(cursor, store_id, mappings[item_type])
+        data = q.get_inventory_specific_type_products(cursor, store_id, product_ids)
+        return json.jsonify(data)
         # return jsonify of table
      
-
     
 """### Sell
 given a product id, quantity, price to sell at
@@ -254,11 +270,15 @@ if we can sell then subtract the given quantity from the Inventory and add the g
     insert price sold at, quantity given, todays date into purchases
 
 """
-@app.route("/sell")
+@app.route("/sell", methods = ["POST"])
 def sell():
 
     # parse for quantity, product_name
-    # _quantity = 
+    # _quantity = request.json()
+    # product_name = request.json()
+    _quantity = request.args.get("quantity")
+    product_name = request.args.get("product_name")
+
     _store_id = session["store_id"]
     _employee_id = session["employee_id"]
     
@@ -288,7 +308,7 @@ insert
     look for the product id and update quantity by adding the current quantity with the given quantity
 
 """
-@app.route("/restock")
+@app.route("/restock", methods = ["POST"])
 def restock():
     # parse for product_name, quantity
     # _quantity 

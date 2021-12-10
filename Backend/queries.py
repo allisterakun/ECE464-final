@@ -96,19 +96,58 @@ def getSoldAmountTotal(cursor, store_id, start_date, end_date):
     return total
     # return table and do it in python (price_sold_at INT, quantity INT)
 
+
 def get_inventory_general(cursor, store_id):
+    cursor.execute("SELECT product_name, sell_price, quantity \
+                    FROM Products JOIN Inventory ON Products.product_id = Inventory.product_id \
+                    WHERE Inventory.store_id = " + str(store_id) + ";")
+    
+    row_headers = [x[0] for x in cursor.description]
+    rows = cursor.fetchall()
+    
+    json_data = []
+    for row in rows:
+        json_data.append({
+                            row_headers[0]: row[0], 
+                            row_headers[1]: row[1],
+                            row_headers[2]: row[2]
+                        })
+
+    return json_data
     # join products and inventory on product_id
     # return table (product_name, sell_price, quantity)
-    pass
+    
 
-def get_inventory_specific_product(cursor, store_id, product_id):
+def get_inventory_specific_type_products(cursor, store_id, product_ids):
+    cursor.execute("SELECT Products.product_name, Products.sell_price, Inventory.quantity \
+                    FROM Products JOIN Inventory ON Products.product_id = Inventory.product_id \
+                    WHERE store_id = " + str(store_id) + " AND Inventory.product_id IN (" + str(product_ids)[1:-1] + ");")
+
+    row_headers = [x[0] for x in cursor.description]
+    rows = cursor.fetchall()
+
+    json_data = []
+    for row in rows:
+        json_data.append({
+                            row_headers[0]: row[0], 
+                            row_headers[1]: row[1],
+                            row_headers[2]: row[2]
+                        })
+
+    return json_data
     # join products and inventory on product_id
     # return table (product_name, sell_price, quantity)
-    pass
 
-def get_product_info(cursor, product_name):
+
+def get_product_info(cursor, store_id, item_type_id):
+    cursor.execute("SELECT Products.product_id FROM Products JOIN Inventory ON Products.product_id = Inventory.product_id JOIN ItemTypes ON ItemTypes.item_type_id = Products.item_type_id \
+                    WHERE store_id = " + str(store_id) + " AND Products.item_type_id = " + str(item_type_id) + ";")
+
+    product_ids = cursor.fetchall()
+    product_ids = [product[0] for product in product_ids]
+    return product_ids
     # return product_id INT
-    pass
+
 
 def get_quantity_specific_product(cursor, product_id, store_id):
     # return quantity INT
