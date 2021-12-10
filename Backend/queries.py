@@ -146,12 +146,22 @@ def get_product_info(cursor, store_id, item_type_id):
     product_ids = cursor.fetchall()
     product_ids = [product[0] for product in product_ids]
     return product_ids
-    # return product_id INT
+    # return llist(product_id) INT
 
+
+def get_specific_product_info(cursor, store_id, product_name):
+    cursor.execute("SELECT Products.product_id, sell_price FROM Products JOIN Inventory ON Products.product_id = Inventory.product_id WHERE store_id = " + str(store_id) + " AND product_name = '" + product_name + "';")
+    data = cursor.fetchone()
+    return data
+    # return product_id, sell_price INT
+    
 
 def get_quantity_specific_product(cursor, product_id, store_id):
+    cursor.execute("SELECT quantity FROM Inventory WHERE store_id = " + str(store_id) + " AND product_id = " + str(product_id) + ";")
+    quantity = cursor.fetchone()
+    return quantity
     # return quantity INT
-    pass
+
 
 def add_purchases(cursor, employee_id, current_date, price_sold_at, product_id, quantity):
     # insert 

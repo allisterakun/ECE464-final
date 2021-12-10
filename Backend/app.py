@@ -282,23 +282,28 @@ def sell():
     _store_id = session["store_id"]
     _employee_id = session["employee_id"]
     
+    current_date = datetime.now().date()
 
     # lookup the product_id and sell_price based on the product_name, parse into two variables: product_id and selling price
-    q.get_product_info(cursor, product_name)
+    cursor = mysql.connect().cursor()
+    product_id, price_sold_at = q.get_specific_product_info(cursor, _store_id, product_name)
 
     # lookup the quantity from inventory based on product_id and store_id
-    q.get_quantity_specific_product(cursor, product_id, _store_id)
+    quantity = q.get_quantity_specific_product(cursor, product_id, _store_id)
 
     # if the quantity > given quantity
         # sell
-    if True:
+    if quantity > _quantity:
         # add to the purchases table (current date: create variable)
         q.add_purchases(cursor, _employee_id, current_date, price_sold_at, product_id, quantity)
     
         # subtract from inventory ie update the quantity in inventory
-        q.update_inventory(cursor, store_id, product_id, quantity - _quantity)
+        q.update_inventory(cursor, _store_id, product_id, quantity - _quantity)
 
     # else return error
+    else:
+        # error not enough supply to sell, status code
+        return json.jsonify({"statusCode": "405"})
 
 
 """### Restock
@@ -311,9 +316,16 @@ insert
 @app.route("/restock", methods = ["POST"])
 def restock():
     # parse for product_name, quantity
-    # _quantity 
+    # _quantity = request.json()
+    # product_name = request.json()
+    _quantity = request.args.get("quantity")
+    product_name = request.args.get("product_name")
+
+    _store_id = session["store_id"]
+
     # lookup the product_id
-    q.get_product_info(cursor, product_name)
+    cursor = mysql.connect().cursor()
+    product_id, _ = q.get_specific_product_info(cursor, _store_id, product_name)
 
     # check if product exists
     if q.product_exists(cursor, product_id):
