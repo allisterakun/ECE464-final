@@ -3,6 +3,7 @@ from flask import Flask, request, json, session, render_template, redirect, url_
 from flaskext.mysql import MySQL
 from dotenv import load_dotenv
 from flask_cors import CORS
+import requests
 
 import os
 
@@ -57,8 +58,8 @@ def login():
 
     # msg = ""
 
-    # _username = request.json("inputUsername")
-    # _password = request.json("inputPassword")
+    # _username = requests.params("inputUsername")
+    # _password = requests.params("inputPassword")
     _username = request.args.get("inputUsername")
     _password = request.args.get("inputPassword")
     
