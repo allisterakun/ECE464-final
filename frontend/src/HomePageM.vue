@@ -7,12 +7,12 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item href="#">Check Profit</b-nav-item>
-        <b-nav-item href="#">Check Timesheets</b-nav-item>
-        <b-nav-item href="#">Check Inventory</b-nav-item>
-        <b-nav-item href="#">Timesheet</b-nav-item>
-        <b-nav-item href="#">Sell</b-nav-item>
-        <b-nav-item href="#">Check Purchase</b-nav-item>
+        <b-nav-item v-if="isManager" href="#">Check Profit</b-nav-item>
+        <b-nav-item v-if="isManager" href="#">Check Timesheets</b-nav-item>
+        <b-nav-item v-if="!isManager" href="#">Check Inventory</b-nav-item>
+        <b-nav-item v-if="!isManager" href="#">Timesheet</b-nav-item>
+        <b-nav-item v-if="!isManager" href="#">Sell</b-nav-item>
+        <b-nav-item v-if="!isManager" href="#">Check Purchase</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -37,7 +37,8 @@ export default {
     name:"HomepageM",
     data:function(){
       return{
-        position:"?"
+        position:"?",
+        isManager: false
       }
     },
     methods:{
@@ -50,6 +51,9 @@ export default {
           }
         }).then(function (response) {
           self.position = response.data.position;
+          if(self.position == "Manager"){
+            self.isManager = true;
+          }
         })
         .catch(function (error) {
           console.log(error);
