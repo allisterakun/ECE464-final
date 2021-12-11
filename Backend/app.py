@@ -279,7 +279,7 @@ def sell():
     # parse for quantity, product_name
     # _quantity = request.json()
     # product_name = request.json()
-    _quantity = request.args.get("quantity")
+    _quantity = int(request.args.get("quantity"))
     product_name = request.args.get("product_name")
 
     _store_id = session["store_id"]
@@ -290,15 +290,15 @@ def sell():
     # lookup the product_id and sell_price based on the product_name, parse into two variables: product_id and selling price
     cursor = mysql.connect().cursor()
     product_id, price_sold_at = q.get_specific_product_info(cursor, _store_id, product_name)
-
+    
     # lookup the quantity from inventory based on product_id and store_id
-    quantity = q.get_quantity_specific_product(cursor, product_id, _store_id)
+    quantity = q.get_quantity_specific_product(cursor, product_id, _store_id)[0]
 
     # if product exists
-    if q.product_exists(cursor, product_id):
+    if product_id:
         # if the quantity > given quantity
             # sell
-        if quantity > _quantity:
+        if _quantity and quantity > int(_quantity):
             # add to the purchases table (current date: create variable)
             q.add_purchases(cursor, _employee_id, current_date, price_sold_at, product_id, quantity)
         

@@ -152,6 +152,7 @@ def get_product_info(cursor, store_id, item_type_id):
 def get_specific_product_info(cursor, store_id, product_name):
     cursor.execute("SELECT Products.product_id, sell_price FROM Products JOIN Inventory ON Products.product_id = Inventory.product_id WHERE store_id = " + str(store_id) + " AND product_name = '" + product_name + "';")
     data = cursor.fetchone()
+    print(data)
     return data
     # return product_id, sell_price INT
     
