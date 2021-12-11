@@ -302,10 +302,16 @@ def sell():
             # sell
         if _quantity and quantity >= int(_quantity):
             # add to the purchases table (current date: create variable)
+            conn = mysql.connect()
+            cursor = conn.cursor()
             q.add_purchases(cursor, _employee_id, current_date, price_sold_at, product_id, _store_id, _quantity)
+            conn.commit()
         
             # subtract from inventory ie update the quantity in inventory
+            conn = mysql.connect()
+            cursor = conn.cursor()
             q.update_inventory(cursor, _store_id, product_id, quantity - _quantity)
+            conn.commit()
 
     # else return error
     else:
@@ -340,9 +346,16 @@ def restock():
             if q.product_exists(cursor, product_id):
                 # update quantity
                 quantity = q.get_quantity_specific_product(cursor, product_id, _store_id)
+
+                conn = mysql.connect()
+                cursor = conn.cursor()
                 q.update_inventory(cursor, _store_id, product_id, quantity + _quantity)
+                conn.commit()
             else:
+                conn = mysql.connect()
+                cursor = conn.cursor()
                 q.add_inventory(cursor, _store_id, product_id, _quantity)
+                conn.commit()
 
             return json.jsonify({"statusCode": "200"})
 
