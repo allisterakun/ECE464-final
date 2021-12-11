@@ -9,6 +9,7 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import VueCookie from 'vue-cookie'
+import Notifications from 'vue-notification'
 
 
 // Make BootstrapVue available throughout your project
@@ -16,6 +17,7 @@ Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueCookie);
+Vue.use(Notifications);
 Vue.config.productionTip = false
 
 
@@ -36,6 +38,9 @@ const store = new Vuex.Store({
   mutations: {
     increment (state) {
       state.count++
+    },
+    login(state){
+      state.isLoggedin = true;
     }
   }
 })
@@ -45,6 +50,7 @@ console.log(store.state.count);
 
 new Vue({
   router,
+  store,
   render: h => h(App),
 }).$mount('#app')
 

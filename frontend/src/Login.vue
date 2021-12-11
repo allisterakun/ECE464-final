@@ -31,26 +31,36 @@ export default {
   },
   methods:{
     login(){
+      let self = this;
+
       let parameters = {
         inputUsername:this.UserName,
         inputPassword:this.Password
       } 
 
-    axios.post(backEndAddress+"/login", parameters)
-    .then(function (response) {
-      console.log(response);
-      if(response.data.statusCode == "200"){
-        print("loged in");
-      }
-    })
-    .catch(function (error) {
-      console.log(error);
-    });
+      axios.post(backEndAddress+"/login", parameters)
+      .then(function (response) {
+        console.log(response);
+        if(response.data.employee_id != undefined){
+
+        
+          self.$store.commit('login');
+          
+          self.$cookie.set('employee_id', response.data.employee_id);
+          self.$cookie.set('store_id', response.data.store_id);
+          // console.log(this.$cookie.get('employee_id'));
+
+          
+          self.$router.push('/homepageM');
+        }else{
+          self.$notify({ type: 'error', text: 'Username or Password not Correct!' });
+        }
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 
 
-      this.$cookie.set('test', 'Hello world!', 1);
-      console.log(this.$cookie.get('test'));
-      this.$router.push('/homepageM')
     }
   }
 }
