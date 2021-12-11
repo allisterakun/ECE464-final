@@ -101,8 +101,10 @@ export default {
     this.isManager = this.$cookie.get("isManager");
 
     if(this.isManager == 'true'){
+      this.isManager = true;
       this.getAllTimeSheets();
     }else{
+      this.isManager = false;
       this.getMyTimeSheet(this.$cookie.get("employee_id"));
     }
 
