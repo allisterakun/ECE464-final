@@ -30,7 +30,8 @@ const router = new VueRouter({
 
 const store = new Vuex.Store({
   state: {
-    count: 0
+    count: 0,
+    isLoggedin:false
   },
   mutations: {
     increment (state) {
