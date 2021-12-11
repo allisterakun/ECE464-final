@@ -5,13 +5,13 @@
     style="max-width: 20rem;"
     class="mb-2"
   >
-    <b-card-text>
+      <b-card-text>
       <p>Clock In : {{clockIn}}</p>
       <p>Clock Out: {{clockOut}}</p>
       <p>Item Sold: {{sold}}</p>
-    </b-card-text>
+      </b-card-text>
 
-     </b-card>
+    </b-card>
   </div>
 </template>
 

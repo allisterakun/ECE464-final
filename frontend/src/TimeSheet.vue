@@ -18,7 +18,7 @@
       <p>Clock Out:</p>
       <b-form-timepicker v-model="checkOutTime" locale="en"></b-form-timepicker>
       
-      <p>Item Sold: {{sold}}</p>
+      <p>Item Sold:</p>
       <b-form-input type="number" v-model="soldRecord"></b-form-input>
       <p></p>
        <b-button v-on:click="addNewTimeSheet">Submit</b-button>
@@ -56,7 +56,28 @@ export default {
       })
     },
     addNewTimeSheet(){
+      let self = this;
+      let parameters = {
+        work_date: this.checkInDate,
+        clock_in_time:this.checkInTime,
+        clock_out_time:this.checkOutTime,
+        items_sold:this.soldRecord,
+        employee_id: this.$cookie.get("employee_id")
+      }
+      axios.post(backEndAddress + "/newTimesheet", parameters)
+      .then(res => {
 
+        console.log(res);
+        self.getMyTimeSheet(this.$cookie.get("employee_id"));
+        self.checkInDate = "";
+        self.checkInTime = "";
+        self.checkOutTime = "";
+        self.soldRecord = "";
+        // self.timeSheetRow = res.data;
+      })
+      .catch(err => {
+        console.error(err); 
+      })
     }
   },
   mounted(){

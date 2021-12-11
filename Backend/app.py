@@ -116,12 +116,12 @@ insert it
 def createTimesheet():
     
     # parse from frontend POST request
-    work_date = request.json("work_date")
-    clock_in_time = request.json("clock_in_time")
-    clock_out_time = request.json("clock_out_time")
-    items_sold = request.json("items_sold")
+    work_date = request.json["work_date"]
+    clock_in_time = request.json["clock_in_time"]
+    clock_out_time = request.json["clock_out_time"]
+    items_sold = request.json["items_sold"]
 
-    _id = request.json("employee_id")
+    _id = request.json["employee_id"]
     # current_date = datetime.now().date()
     
     # insert into db
