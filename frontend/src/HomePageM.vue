@@ -1,6 +1,6 @@
 <template>
   <div id="HomePage">
-    <h1>Homepage</h1>
+    <h1>{{position}}</h1>
     <b-navbar id="bNavBar" toggleable="lg" type="light" variant="info">
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
@@ -31,8 +31,34 @@
 </template>
 
 <script>
+import axios from 'axios';
+import backEndAddress from "./utili.js"
 export default {
-    name:"HomepageM"
+    name:"HomepageM",
+    data:function(){
+      return{
+        position:"?"
+      }
+    },
+    methods:{
+      getPosition(){
+        let self = this;
+        let employee_id = this.$cookie.get('employee_id');
+        axios.get(backEndAddress+"/home", {
+          params: {
+            employee_id: employee_id
+          }
+        }).then(function (response) {
+          self.position = response.data.position;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+      }
+    },
+    mounted(){
+      this.getPosition()
+    }
 }
 </script>
 

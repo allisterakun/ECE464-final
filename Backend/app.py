@@ -86,10 +86,10 @@ def login():
 """
 Determine the correct homepage
 """
-@app.route("/home")
+@app.route("/home", methods = ["GET"])
 def homepage():
     
-    _id = session["employee_id"]
+    _id =  request.args.get("employee_id")
     cursor = mysql.connect().cursor()
     return jsonify({"position": q.getPosition(cursor, _id)[0]})
 

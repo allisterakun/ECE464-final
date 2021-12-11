@@ -38,7 +38,7 @@ export default {
         inputPassword:this.Password
       } 
 
-      axios.post(backEndAddress+"/login", parameters)
+      axios.post(backEndAddress+"/home", parameters)
       .then(function (response) {
         console.log(response);
         if(response.data.employee_id != undefined){
