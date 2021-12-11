@@ -29,11 +29,11 @@ export default {
   },
   methods:{
     login(){
-      post(
-        {
+      post({
           inputUsername:this.UserName,
           inputPassword:this.Password
-        }
+      }
+        
       )
 
       this.$cookie.set('test', 'Hello world!', 1);

@@ -51,16 +51,16 @@ if match then get a session to save employee_id and move onto the correct page
 
 """
 @app.route("/")
-@app.route("/login")
+@app.route("/login", methods = ["POST"])
 def login():
     # db_setup.setup()
 
     # msg = ""
-
-    # _username = request.json("inputUsername")
-    # _password = request.json("inputPassword")
-    _username = request.args.get("inputUsername")
-    _password = request.args.get("inputPassword")
+    
+    _username = request.json["inputUsername"]
+    _password = request.json["inputUsername"]
+    # _username = request.args.get("inputUsername")
+    # _password = request.args.get("inputPassword")
     
     cursor = mysql.connect().cursor()
     cursor.execute("SELECT * FROM Login_ WHERE username ='" + _username + "' and password ='" + _password + "'")
