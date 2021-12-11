@@ -336,9 +336,9 @@ def restock():
     if q.product_exists(cursor, product_id):
         # update quantity
         quantity = q.get_quantity_specific_product(cursor, product_id, _store_id)
-        q.update_inventory(cursor, store_id, product_id, quantity + _quantity)
+        q.update_inventory(cursor, _store_id, product_id, quantity + _quantity)
     else:
-        q.add_inventory(cursor, store_id, product_id, _quantity)
+        q.add_inventory(cursor, _store_id, product_id, _quantity)
 
 
 

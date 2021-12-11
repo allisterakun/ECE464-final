@@ -178,12 +178,14 @@ def update_inventory(cursor, store_id, product_id, quantity):
     
 
 def product_exists(cursor, product_id):
-    cursor.execute("")
+    cursor.execute("SELECT EXISTS (SELECT * FROM Inventory WHERE product_id = " + str(product_id) + ");")
+    _exists = cursor.fetchone()
+    return _exists
     # return Bool
-    pass
+    
 
 def add_inventory(cursor, store_id, product_id, quantity):
-    cursor.execute("")
+    cursor.execute("INSERT INTO Inventory values (" + str(product_id) + ", " + str(store_id) + ", " + str(quantity) + ");")
     return
     # insert
     # return None
