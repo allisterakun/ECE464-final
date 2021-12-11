@@ -31,7 +31,7 @@ export default {
     login(){
       post(
         {
-          inputName:this.UserName,
+          inputUsername:this.UserName,
           inputPassword:this.Password
         }
       )

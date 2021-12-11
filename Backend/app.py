@@ -2,6 +2,8 @@ from datetime import datetime
 from flask import Flask, request, json, session, render_template, redirect, url_for, jsonify
 from flaskext.mysql import MySQL
 from dotenv import load_dotenv
+from flask_cors import CORS
+
 import os
 
 import db_setup # has our script to setup the database
@@ -20,6 +22,7 @@ db_host = os.environ.get("MYSQL_DATABASE_HOST")
 db_secret = os.environ.get("SECRET")
 
 app = Flask(__name__)
+CORS(app)
 app.run()
 app.secret_key = db_secret
 
