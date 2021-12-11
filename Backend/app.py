@@ -277,8 +277,8 @@ if we can sell then subtract the given quantity from the Inventory and add the g
 def sell():
 
     # parse for quantity, product_name
-    # _quantity = request.json()
-    # product_name = request.json()
+    # _quantity = request.json("quantity")
+    # product_name = request.json("product_name")
     _quantity = int(request.args.get("quantity"))
     product_name = request.args.get("product_name")
 
@@ -321,8 +321,8 @@ insert
 @app.route("/restock", methods = ["POST"])
 def restock():
     # parse for product_name, quantity
-    # _quantity = request.json()
-    # product_name = request.json()
+    # _quantity = request.json("quantity")
+    # product_name = request.json("product_name")
     _quantity = request.args.get("quantity")
     product_name = request.args.get("product_name")
 
