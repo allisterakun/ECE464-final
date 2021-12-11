@@ -42,6 +42,11 @@ export default {
       }
     },
     methods:{
+      checkLogin(){
+        if(this.$cookie.get("employee_id") == null){
+          this.$router.push('/');
+        }
+      },
       getPosition(){
         let self = this;
         let employee_id = this.$cookie.get('employee_id');
@@ -61,7 +66,8 @@ export default {
       }
     },
     mounted(){
-      this.getPosition()
+      checkLogin();
+      this.getPosition();
     }
 }
 </script>
