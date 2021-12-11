@@ -3,7 +3,6 @@ from flask import Flask, request, json, session, render_template, redirect, url_
 from flaskext.mysql import MySQL
 from dotenv import load_dotenv
 from flask_cors import CORS
-import requests
 
 import os
 
