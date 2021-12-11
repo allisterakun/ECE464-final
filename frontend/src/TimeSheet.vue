@@ -76,7 +76,7 @@ export default {
         // self.timeSheetRow = res.data;
       })
       .catch(err => {
-        console.error(err); 
+        self.$notify({ type: 'error', text: 'Please select a different day!' + err });
       })
     }
   },
