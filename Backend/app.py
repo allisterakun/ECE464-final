@@ -298,9 +298,9 @@ def sell():
     if product_id:
         # if the quantity > given quantity
             # sell
-        if _quantity and quantity > int(_quantity):
+        if _quantity and quantity >= int(_quantity):
             # add to the purchases table (current date: create variable)
-            q.add_purchases(cursor, _employee_id, current_date, price_sold_at, product_id, quantity)
+            q.add_purchases(cursor, _employee_id, current_date, price_sold_at, product_id, _store_id, _quantity)
         
             # subtract from inventory ie update the quantity in inventory
             q.update_inventory(cursor, _store_id, product_id, quantity - _quantity)

@@ -152,7 +152,6 @@ def get_product_info(cursor, store_id, item_type_id):
 def get_specific_product_info(cursor, store_id, product_name):
     cursor.execute("SELECT Products.product_id, sell_price FROM Products JOIN Inventory ON Products.product_id = Inventory.product_id WHERE store_id = " + str(store_id) + " AND product_name = '" + product_name + "';")
     data = cursor.fetchone()
-    print(data)
     return data
     # return product_id, sell_price INT
     
@@ -164,21 +163,28 @@ def get_quantity_specific_product(cursor, product_id, store_id):
     # return quantity INT
 
 
-def add_purchases(cursor, employee_id, current_date, price_sold_at, product_id, quantity):
+def add_purchases(cursor, employee_id, current_date, price_sold_at, product_id, store_id, quantity):
+    cursor.execute("INSERT INTO Purchases values (" + str(product_id) + ", " + str(employee_id) + ", " + str(store_id) + ", " + str(current_date) + ", " + str(price_sold_at) + ", " + str(quantity) + ")")
+    return
     # insert 
     # return None
-    pass
+    
 
 def update_inventory(cursor, store_id, product_id, quantity):
+    cursor.execute("")
+    return
     # update
     # return None
-    pass
+    
 
 def product_exists(cursor, product_id):
+    cursor.execute("")
     # return Bool
     pass
 
 def add_inventory(cursor, store_id, product_id, quantity):
+    cursor.execute("")
+    return
     # insert
     # return None
-    pass
+    
