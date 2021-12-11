@@ -157,8 +157,8 @@ Review all timesheets
 @app.route("/getAllTimesheet", methods = ["GET"])
 def getAllTimesheets():
 
-    _id = session["employee_id"]
-    store_id = session["store_id"]
+    _id = request.args.get("employee_id");
+    store_id = request.args.get("store_id")
 
     cursor = mysql.connect().cursor()
     if q.getPosition(cursor, _id)[0] == "Manager":

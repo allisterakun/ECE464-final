@@ -1,6 +1,6 @@
 <template>
   <div id="TimeSheet">
-    <b-card
+    <b-card v-if="!isManager"
     title="Record Your Work"
     style="max-width: 150rem;"
     class="mb-2"
@@ -25,11 +25,12 @@
       </b-card-text>
 
     </b-card>
-    <ul id="example-1" style="list-style: none">
+    <ul v-if="!isManager" id="example-1" style="list-style: none">
         <li v-for="item in timeSheetRow" :key="item.message">
             <time-sheet-row :clockIn="item.clock_in_time" :clockOut="item.clock_out_time" :date="item.work_date" :sold="item.items_sold"/>
         </li>
     </ul>
+    <b-table v-if="isManager" striped hover :items="timeSheetRow"></b-table>
   </div>
 </template>
 
@@ -37,6 +38,7 @@
 import backEndAddress from "./utili.js"
 import axios from 'axios'
 import timeSheetRow from './components/timeSheetRow.vue'
+
 export default {
   name:"TimeSheet",
   components:{timeSheetRow},
@@ -78,15 +80,28 @@ export default {
       .catch(err => {
         self.$notify({ type: 'error', text: 'Please select a different day!' + err });
       })
+    },
+    getAllTimeSheets(){
+      let self = this;
+      axios.get(backEndAddress +"/getAllTimesheet",{params: {
+            employee_id: this.$cookie.get("employee_id"),
+            store_id: this.$cookie.get("store_id"),
+            start_date: "2000-1-1",
+            end_date: "2023-1-1"
+          }
+        })
+      .then(res => {
+        console.log(res);
+        self.timeSheetRow = res.data
+      })
+
     }
   },
   mounted(){
     this.isManager = this.$cookie.get("isManager");
-      
 
-    if(this.isManager == true){
-        console.log(this.isManager);
-        console.log("hi");
+    if(this.isManager == 'true'){
+      this.getAllTimeSheets();
     }else{
       this.getMyTimeSheet(this.$cookie.get("employee_id"));
     }
