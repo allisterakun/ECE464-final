@@ -164,14 +164,14 @@ def get_quantity_specific_product(cursor, product_id, store_id):
 
 
 def add_purchases(cursor, employee_id, current_date, price_sold_at, product_id, store_id, quantity):
-    cursor.execute("INSERT INTO Purchases values (" + str(product_id) + ", " + str(employee_id) + ", " + str(store_id) + ", " + str(current_date) + ", " + str(price_sold_at) + ", " + str(quantity) + ")")
+    cursor.execute("INSERT INTO Purchases values (" + str(product_id) + ", " + str(employee_id) + ", " + str(store_id) + ", " + str(current_date) + ", " + str(price_sold_at) + ", " + str(quantity) + ");")
     return
     # insert 
     # return None
     
 
 def update_inventory(cursor, store_id, product_id, quantity):
-    cursor.execute("")
+    cursor.execute("UPDATE Inventory SET quantity = " + str(quantity) + " WHERE store_id = " + str(store_id) + " AND product_id = " + str(product_id) + ";")
     return
     # update
     # return None
