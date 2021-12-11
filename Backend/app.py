@@ -121,7 +121,7 @@ def createTimesheet():
     clock_out_time = request.json("clock_out_time")
     items_sold = request.json("items_sold")
 
-    _id = session["employee_id"]
+    _id = request.json("employee_id")
     # current_date = datetime.now().date()
     
     # insert into db

@@ -7,10 +7,10 @@
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
+        <b-nav-item v-if="!isManager" href="#/homepage/timesheet">Timesheet</b-nav-item>
+        <b-nav-item v-if="isManager" href="#/homepage/timesheet">Check Timesheets</b-nav-item>
         <b-nav-item v-if="isManager" href="#">Check Profit</b-nav-item>
-        <b-nav-item v-if="isManager" href="#">Check Timesheets</b-nav-item>
         <b-nav-item v-if="!isManager" href="#">Check Inventory</b-nav-item>
-        <b-nav-item v-if="!isManager" href="#">Timesheet</b-nav-item>
         <b-nav-item v-if="!isManager" href="#">Sell</b-nav-item>
         <b-nav-item v-if="!isManager" href="#">Check Purchase</b-nav-item>
       </b-navbar-nav>
