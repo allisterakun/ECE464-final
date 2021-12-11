@@ -22,7 +22,7 @@
           <template #button-content>
             <em>User</em>
           </template>
-          <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+          <b-dropdown-item v-on:click="signOut">Sign Out</b-dropdown-item>
         </b-nav-item-dropdown>
       </b-navbar-nav>
     </b-collapse>
@@ -47,7 +47,14 @@ export default {
       checkLogin(){
         if(this.$cookie.get("employee_id") == null){
           this.$router.push('/');
+          return false;
         }
+        return true;
+      },
+      signOut(){
+        this.$cookie.delete("employee_id");
+        this.$router.push('/');
+
       },
       getPosition(){
         let self = this;
@@ -73,8 +80,9 @@ export default {
       }
     },
     mounted(){
-      this.checkLogin();
-      this.getPosition();
+      if(this.checkLogin()){
+        this.getPosition();
+      }
     }
 }
 </script>
