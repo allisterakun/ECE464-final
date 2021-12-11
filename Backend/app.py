@@ -74,7 +74,7 @@ def login():
         temp = cursor.execute("SELECT store_id FROM Employees WHERE employee_id = '" + str(session["employee_id"]) + "'")
         session["store_id"] = json.dumps(temp)
 
-        return json.jsonify({"statusCode": "200"})
+        return json.jsonify({"employee_id": session["employee_id"], "store_id": session["store_id"]})
         # msg = "mlem"
         # return render_template("index.html", msg = msg)
     else:
@@ -294,14 +294,16 @@ def sell():
     # lookup the quantity from inventory based on product_id and store_id
     quantity = q.get_quantity_specific_product(cursor, product_id, _store_id)
 
-    # if the quantity > given quantity
-        # sell
-    if quantity > _quantity:
-        # add to the purchases table (current date: create variable)
-        q.add_purchases(cursor, _employee_id, current_date, price_sold_at, product_id, quantity)
-    
-        # subtract from inventory ie update the quantity in inventory
-        q.update_inventory(cursor, _store_id, product_id, quantity - _quantity)
+    # if product exists
+    if q.product_exists(cursor, product_id):
+        # if the quantity > given quantity
+            # sell
+        if quantity > _quantity:
+            # add to the purchases table (current date: create variable)
+            q.add_purchases(cursor, _employee_id, current_date, price_sold_at, product_id, quantity)
+        
+            # subtract from inventory ie update the quantity in inventory
+            q.update_inventory(cursor, _store_id, product_id, quantity - _quantity)
 
     # else return error
     else:
