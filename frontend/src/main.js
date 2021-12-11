@@ -11,6 +11,7 @@ import Vuex from 'vuex'
 import VueCookie from 'vue-cookie'
 import Notifications from 'vue-notification'
 import TimeSheet from './TimeSheet.vue'
+import Inventory from './Inventory.vue'
 
 
 // Make BootstrapVue available throughout your project
@@ -26,7 +27,8 @@ const routes = [
   { path: '/', component: Login },
   { path: '/homepage', component: HomePageM,
       children: [
-        { path: 'timesheet', component: TimeSheet }
+        { path: 'timesheet', component: TimeSheet },
+        { path: 'inventory', component: Inventory }
       ]
     }
 ]

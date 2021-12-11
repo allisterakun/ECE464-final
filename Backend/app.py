@@ -243,7 +243,7 @@ def getInventory():
     # item_type = request.json("item_type")
     item_type = request.args.get("item_type")
 
-    store_id = session["store_id"]
+    store_id =  request.args.get("store_id")
 
     # if no item_type (string)
     if item_type is None:
