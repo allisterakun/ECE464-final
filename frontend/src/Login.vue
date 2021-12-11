@@ -51,7 +51,7 @@ export default {
           // console.log(this.$cookie.get('employee_id'));
 
           
-          self.$router.push('/homepageM');
+          self.$router.push('/homepage');
         }else{
           self.$notify({ type: 'error', text: 'Username or Password not Correct!' });
         }

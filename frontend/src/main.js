@@ -10,6 +10,7 @@ import VueRouter from 'vue-router'
 import Vuex from 'vuex'
 import VueCookie from 'vue-cookie'
 import Notifications from 'vue-notification'
+import TimeSheet from './TimeSheet.vue'
 
 
 // Make BootstrapVue available throughout your project
@@ -23,7 +24,11 @@ Vue.config.productionTip = false
 
 const routes = [
   { path: '/', component: Login },
-  { path: '/homepageM', component: HomePageM}
+  { path: '/homepage', component: HomePageM,
+      children: [
+        { path: 'timesheet', component: TimeSheet }
+      ]
+    }
 ]
 
 const router = new VueRouter({

@@ -27,6 +27,8 @@
       </b-navbar-nav>
     </b-collapse>
   </b-navbar>
+
+  <router-view></router-view>
   </div>
 </template>
 
@@ -59,6 +61,11 @@ export default {
           if(self.position == "Manager"){
             self.isManager = true;
           }
+
+          self.$cookie.set("isManager", self.isManager);
+
+          self.$router.push('/homepage/timesheet').catch(()=>{});
+
         })
         .catch(function (error) {
           console.log(error);
@@ -66,7 +73,7 @@ export default {
       }
     },
     mounted(){
-      checkLogin();
+      this.checkLogin();
       this.getPosition();
     }
 }

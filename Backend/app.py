@@ -139,7 +139,7 @@ Review your own timesheet
 """
 @app.route("/getTimesheet", methods = ["GET"])
 def getTimesheet():
-    _id = session["employee_id"]
+    _id = request.args.get("employee_id");
     
     # get all the timesheets for the current employee
     cursor = mysql.connect().cursor() 
