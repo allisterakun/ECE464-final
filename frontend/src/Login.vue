@@ -18,7 +18,9 @@
 </template>
 
 <script>
-import post from './utili.js'
+import backEndAddress from './utili.js'
+import axios from 'axios';
+
 export default {
   name: 'Login',
   data:function(){
@@ -29,12 +31,22 @@ export default {
   },
   methods:{
     login(){
-      post({
-          inputUsername:this.UserName,
-          inputPassword:this.Password
+      let parameters = {
+        inputUsername:this.UserName,
+        inputPassword:this.Password
+      } 
+
+    axios.post(backEndAddress+"/login", parameters)
+    .then(function (response) {
+      console.log(response);
+      if(response.data.statusCode == "200"){
+        print("loged in");
       }
-        
-      )
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
 
       this.$cookie.set('test', 'Hello world!', 1);
       console.log(this.$cookie.get('test'));

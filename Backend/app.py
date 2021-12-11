@@ -58,7 +58,7 @@ def login():
     # msg = ""
     
     _username = request.json["inputUsername"]
-    _password = request.json["inputUsername"]
+    _password = request.json["inputPassword"]
     # _username = request.args.get("inputUsername")
     # _password = request.args.get("inputPassword")
     
