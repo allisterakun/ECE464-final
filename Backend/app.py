@@ -325,20 +325,33 @@ def restock():
     # product_name = request.json("product_name")
     _quantity = request.args.get("quantity")
     product_name = request.args.get("product_name")
-
+    
     _store_id = session["store_id"]
 
     # lookup the product_id
-    cursor = mysql.connect().cursor()
-    product_id, _ = q.get_specific_product_info(cursor, _store_id, product_name)
+    if product_name:
+        cursor = mysql.connect().cursor()
+        product_id, _ = q.get_specific_product_info(cursor, _store_id, product_name)
 
-    # check if product exists
-    if q.product_exists(cursor, product_id):
-        # update quantity
-        quantity = q.get_quantity_specific_product(cursor, product_id, _store_id)
-        q.update_inventory(cursor, _store_id, product_id, quantity + _quantity)
+        if product_id:
+            # check if product exists
+            if q.product_exists(cursor, product_id):
+                # update quantity
+                quantity = q.get_quantity_specific_product(cursor, product_id, _store_id)
+                q.update_inventory(cursor, _store_id, product_id, quantity + _quantity)
+            else:
+                q.add_inventory(cursor, _store_id, product_id, _quantity)
+
+            return json.jsonify({"statusCode": "200"})
+
+        else:
+            # no such product
+            return json.jsonify({"statusCode": "405"})
     else:
-        q.add_inventory(cursor, _store_id, product_id, _quantity)
+        # no product_name given
+        return json.jsonify({"statusCode": "405"})
+
+    
 
 
 
