@@ -74,7 +74,7 @@ def login():
         temp = cursor.execute("SELECT store_id FROM Employees WHERE employee_id = '" + str(session["employee_id"]) + "'")
         session["store_id"] = json.dumps(temp)
 
-        return json.jsonify({"statusCode": "200"})
+        return json.jsonify({"employee_id": session["employee_id"], "store_id": session["store_id"]})
         # msg = "mlem"
         # return render_template("index.html", msg = msg)
     else:
