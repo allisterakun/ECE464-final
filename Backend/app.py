@@ -125,8 +125,10 @@ def createTimesheet():
     # current_date = datetime.now().date()
     
     # insert into db
-    cursor = mysql.connect().cursor()
+    conn = mysql.connect()
+    cursor = conn.cursor()
     q.add_timesheet(cursor, _id, work_date, clock_in_time, clock_out_time, items_sold)
+    conn.commit()
     # insert into Timesheet values (1, 2021-12-08, 22:00, 22:00, 12); 
 
     # return status code
