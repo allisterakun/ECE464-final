@@ -1,6 +1,7 @@
 <template>
   <div id="app">
     <router-view></router-view>
+    <notifications position="bottom right"/>
   </div>
   
 </template>
@@ -22,5 +23,4 @@ export default {
   margin-top: 60px;
   
 }
-
 </style>
