@@ -191,7 +191,7 @@ def add_inventory(cursor, store_id, product_id, quantity):
     # return None
 
 def get_all_purchases(cursor, store_id):
-    cursor.execute("SELECT product_id, Employees.employee_name, purchase_date, price_sold_at, quantity FROM Purchases JOIN Employees ON Employees.employee_id = Purchases.employee_id AND Employees.store_id = Purchases.store_id WHERE Employees.store_id = " + str(store_id) + ";")
+    cursor.execute("SELECT product_id, Employees.employee_name, purchase_date, price_sold_at, quantity FROM Purchases JOIN Employees ON Employees.employee_id = Purchases.employee_id AND Employees.store_id = Purchases.store_id WHERE Employees.store_id = " + str(store_id) + " ORDER BY purchase_date;")
 
     row_headers = [x[0] for x in cursor.description]
     rows = cursor.fetchall()
