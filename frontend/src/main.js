@@ -13,7 +13,7 @@ import Notifications from 'vue-notification'
 import TimeSheet from './TimeSheet.vue'
 import Inventory from './Inventory.vue'
 import Profit from './Profit.vue'
-
+import Sell from './Sell.vue'
 
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
@@ -30,7 +30,8 @@ const routes = [
       children: [
         { path: 'timesheet', component: TimeSheet },
         { path: 'inventory', component: Inventory },
-        { path: 'profit', component: Profit }
+        { path: 'profit', component: Profit },
+        { path: 'sell', component: Sell }
       ]
     }
 ]
