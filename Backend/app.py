@@ -367,7 +367,9 @@ def restock():
         # no product_name given
         return json.jsonify({"statusCode": "405"})
 
-    
+"""Get Purchases
+Return all rows of purchases at a given store from most recent to least recent purchase
+"""    
 @app.route("/getPurchases", methods = ["GET"])
 def getPurchases():
 
