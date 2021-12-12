@@ -30,6 +30,13 @@
             <time-sheet-row :clockIn="item.clock_in_time" :clockOut="item.clock_out_time" :date="item.work_date" :sold="item.items_sold"/>
         </li>
     </ul>
+    <div v-if="isManager">
+      <h2>Start Date:</h2>
+      <b-form-datepicker id="datePicker" v-model="start_Date" class="mb-2"></b-form-datepicker>
+      <h2>End Date:</h2>
+      <b-form-datepicker id="datePicker" v-model="end_Date" class="mb-2"></b-form-datepicker>
+      <b-button v-on:click="getAllTimeSheets(start_Date, end_Date)"> Get Timesheets</b-button>
+    </div>
     <b-table v-if="isManager" striped hover :items="timeSheetRow"></b-table>
   </div>
 </template>
@@ -81,13 +88,13 @@ export default {
         self.$notify({ type: 'error', text: 'Please select a different day!' + err });
       })
     },
-    getAllTimeSheets(){
+    getAllTimeSheets(start_Date = "2000-1-1", end_Date = "2023-1-1"){
       let self = this;
       axios.get(backEndAddress +"/getAllTimesheet",{params: {
             employee_id: this.$cookie.get("employee_id"),
             store_id: this.$cookie.get("store_id"),
-            start_date: "2000-1-1",
-            end_date: "2023-1-1"
+            start_date: start_Date,
+            end_date: end_Date
           }
         })
       .then(res => {
@@ -116,7 +123,9 @@ export default {
       checkInDate: "",
       checkInTime: "",
       checkOutTime: "",
-      soldRecord: 0
+      soldRecord: 0,
+      start_Date:"",
+      end_Date:""
       
     }
   },
