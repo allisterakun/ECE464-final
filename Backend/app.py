@@ -157,8 +157,8 @@ Review all timesheets
 @app.route("/getAllTimesheet", methods = ["GET"])
 def getAllTimesheets():
 
-    _id = session["employee_id"]
-    store_id = session["store_id"]
+    _id = request.args.get("employee_id");
+    store_id = request.args.get("store_id")
 
     cursor = mysql.connect().cursor()
     if q.getPosition(cursor, _id)[0] == "Manager":
@@ -223,11 +223,12 @@ def getProfit():
     # end_date = request.json("end_date")
     start_date = request.args.get("start_date")
     end_date = request.args.get("end_date")
+    store_id = request.args.get("store_id")
 
     # get all the prices sold within the start and end date - call getPay
         # return the difference, ie the profit and return it, jsonified
     cursor = mysql.connect().cursor()
-    profit = q.getSoldAmountTotal(cursor, session["store_id"], start_date, end_date) - getPay(session["store_id"], start_date, end_date)
+    profit = q.getSoldAmountTotal(cursor, store_id, start_date, end_date) - getPay(store_id, start_date, end_date)
 
     return json.jsonify({"profit": profit})
 

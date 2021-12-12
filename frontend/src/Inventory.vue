@@ -43,6 +43,7 @@ export default {
                 console.log(res)
             })
             .catch(err => {
+                self.inventory = [];
                 console.error(err); 
             })
         }
