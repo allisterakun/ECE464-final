@@ -189,4 +189,23 @@ def add_inventory(cursor, store_id, product_id, quantity):
     return
     # insert
     # return None
+
+def get_all_purchases(cursor, store_id):
+    cursor.execute("SELECT product_id, Employees.employee_name, purchase_date, price_sold_at, quantity FROM Purchases JOIN Employees ON Employees.employee_id = Purchases.employee_id AND Employees.store_id = Purchases.store_id WHERE Employees.store_id = " + str(store_id) + ";")
+
+    row_headers = [x[0] for x in cursor.description]
+    rows = cursor.fetchall()
+
+    json_data = []
+    for row in rows:
+        json_data.append({
+                            row_headers[0]: row[0], 
+                            row_headers[1]: row[1],
+                            row_headers[2]: row[2],
+                            row_headers[3]: row[3],
+                            row_headers[4]: row[4]
+                        })
+
+    return json_data
+
     
