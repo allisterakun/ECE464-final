@@ -371,9 +371,9 @@ def restock():
 @app.route("/getPurchases", methods = ["GET"])
 def getPurchases():
 
-    # store_id =  request.args.get("store_id")
+    store_id =  request.args.get("store_id")
 
-    store_id = session["store_id"]
+    # store_id = session["store_id"]
     cursor = mysql.connect().cursor()
     data = q.get_all_purchases(cursor, store_id)
     return json.jsonify(data)
