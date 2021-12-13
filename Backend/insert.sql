@@ -51,4 +51,15 @@ insert into Inventory values (10, 1, 20);
 
 insert into Purchases values (1, 1, 1, "2021-12-08", 1.0, 12);
 insert into Purchases values (1, 2, 1, "2021-12-10", 1.0, 10);
-insert into Purchases values (1, 2, 2, "2021-12-09", 1.0, 11);
+insert into Purchases values (1, 4, 2, "2021-12-09", 1.0, 11);
+insert into Purchases values (7, 3, 1, "2021-12-11", 2.0, 12);
+insert into Purchases values (7, 2, 1, "2021-12-09", 2.0, 12);
+insert into Purchases values (7, 1, 1, "2021-12-12", 2.0, 12);
+insert into Purchases values (7, 2, 1, "2021-12-11", 2.0, 12);
+insert into Purchases values (8, 3, 1, "2021-12-14", 30.0, 5);
+insert into Purchases values (8, 2, 1, "2021-12-14", 30.0, 5);
+insert into Purchases values (8, 1, 1, "2021-12-14", 30.0, 5);
+insert into Purchases values (10, 2, 1, "2021-12-12", 10.0, 6);
+insert into Purchases values (10, 3, 1, "2021-12-10", 10.0, 6);
+insert into Purchases values (10, 2, 1, "2021-12-11", 10.0, 6);
+insert into Purchases values (9, 1, 1, "2021-12-12", 420.0, 1);
