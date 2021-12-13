@@ -9,6 +9,8 @@
         <p></p>
         <h2>Total Profit:</h2>
         <h2>{{profit}}</h2>
+        <h5>Amount Sold:</h5>
+        <h5>{{amount_sold}}</h5>
         <h5>Employee Cost:</h5>
         <h5>{{salary}}</h5>
     </div>
@@ -26,7 +28,8 @@ export default {
             start_Date:"",
             end_Date:"",
             profit:0,
-            salary:0
+            salary:0,
+            amount_sold:0
         }
     },
     methods: {
@@ -42,6 +45,7 @@ export default {
             .then(res => {
                 console.log(res);
                 self.profit = res.data.profit;
+                self.amount_sold = res.data.amount_sold;
             })
             .catch(err => {
                 self.$notify({ type: 'error', text: 'Wrong dates entered!' + err });
