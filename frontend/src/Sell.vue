@@ -3,7 +3,7 @@
         <h3>
             Enter the Product and Quantity for Selling:
         </h3>
-        <b-form-select style="font-size:25px; padding:10px;margin:20px" v-model="product_name" :options="products"></b-form-select>
+        <b-form-select style="font-size:20px; padding:10px;margin:20px" v-model="product_name" :options="products"></b-form-select>
         <p></p>
         <b-form-input v-model="quantity" placeholder="Quantity" type="number">
         </b-form-input>
