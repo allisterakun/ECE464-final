@@ -393,6 +393,8 @@ def getPurchases():
     # store_id = session["store_id"]
     cursor = mysql.connect().cursor()
     data = q.get_all_purchases(cursor, store_id)
+    for a in data:
+            a["purchase_date"] = str(a["purchase_date"])
     return json.jsonify(data)
 
 
