@@ -88,6 +88,12 @@ export default {
 }
 </script>
 
+<style scoped>
+div{
+  width: 80%;
+  margin: auto;
+}
+</style>
 <style>
 
 #bNavBar{

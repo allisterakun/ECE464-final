@@ -1,12 +1,14 @@
 <template>
   <div id="TimeSheet">
+
     <b-card v-if="!isManager"
     title="Record Your Work"
-    style="max-width: 150rem;"
+    style="max-width: 50rem;"
     class="mb-2"
     >
       <b-card-text>
       <p>Date:</p>
+      
       <b-form-datepicker id="example-datepicker" v-model="checkInDate" class="mb-2"></b-form-datepicker>
       <!-- <p>Value: '{{ checkInDate }}'</p> -->
 
@@ -27,7 +29,7 @@
     </b-card>
     <ul v-if="!isManager" id="example-1" style="list-style: none">
         <li v-for="item in timeSheetRow" :key="item.message">
-            <time-sheet-row :clockIn="item.clock_in_time" :clockOut="item.clock_out_time" :date="item.work_date" :sold="item.items_sold"/>
+            <time-sheet-row id="sheets" :clockIn="item.clock_in_time" :clockOut="item.clock_out_time" :date="item.work_date" :sold="item.items_sold"/>
         </li>
     </ul>
     <div v-if="isManager">
@@ -133,6 +135,16 @@ export default {
 }
 </script>
 
-<style>
 
+<style scoped>
+div{
+  width: 80%;
+  margin: auto;
+}
+</style>
+
+<style>
+#sheets{
+  margin: auto;
+}
 </style>

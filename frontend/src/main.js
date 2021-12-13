@@ -24,6 +24,7 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueCookie);
 Vue.use(Notifications);
+
 Vue.config.productionTip = false
 
 

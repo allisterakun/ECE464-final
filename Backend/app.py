@@ -81,7 +81,7 @@ def login():
     else:
         # return render_template("index.html", msg = msg)
         # return "test"
-        return json.jsonify({"statusCode": "401"})
+        return json.jsonify({"statusCode": "401", "msg":"Wrong Username or Password!"})
 
 
 """

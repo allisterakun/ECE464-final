@@ -68,6 +68,13 @@ export default {
 
 </script>
 
+<style scoped>
+div{
+  width: 80%;
+  margin: auto;
+}
+</style>
+
 <style>
 section{
   display: flex;
@@ -75,10 +82,7 @@ section{
   margin-top: 20px;
   margin-bottom: 20px;
 }
-div{
-  width: 80%;
-  margin: auto;
-}
+
 b-card{
   width: 40px;
 }
