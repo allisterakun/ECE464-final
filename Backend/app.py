@@ -313,6 +313,7 @@ def sell():
             cursor = conn.cursor()
             q.update_inventory(cursor, _store_id, product_id, quantity - _quantity)
             conn.commit()
+            return json.jsonify({"statusCode": "200"})
         else:
             return json.jsonify({"statusCode": "405"})
 

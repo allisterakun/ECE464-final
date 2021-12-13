@@ -40,9 +40,13 @@ export default {
             let self = this;
             axios.post(backEndAddress + "/sell",params)
             .then(res => {
-                self.quantity = 0;
-                self.product_name = "";
-                console.log(res)
+                if(res.data.statusCode != "200"){
+                    self.$notify({ type: 'error', text: 'Cannot Sell Product! Check product name or quantity!' });
+                }else{
+                    self.quantity = 0;
+                    self.product_name = "";
+                    console.log(res)
+                }
             })
             .catch(err => {
                 self.$notify({ type: 'error', text: 'Cannot Sell Product!'+ err });

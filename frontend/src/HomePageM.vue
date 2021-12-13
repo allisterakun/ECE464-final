@@ -13,7 +13,7 @@
         <b-nav-item v-if="!isManager" href="#/homepage/inventory">Check Inventory</b-nav-item>
         <b-nav-item v-if="!isManager" href="#/homepage/sell">Sell</b-nav-item>
         <b-nav-item v-if="!isManager" href="#/homepage/restock">Restock</b-nav-item>
-        <b-nav-item v-if="!isManager" href="#">Check Purchase</b-nav-item>
+        <b-nav-item v-if="!isManager" href="#/homepage/purchases">Check Purchases</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
