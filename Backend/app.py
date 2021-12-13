@@ -228,9 +228,10 @@ def getProfit():
     # get all the prices sold within the start and end date - call getPay
         # return the difference, ie the profit and return it, jsonified
     cursor = mysql.connect().cursor()
-    profit = q.getSoldAmountTotal(cursor, store_id, start_date, end_date) - getPay(store_id, start_date, end_date)
+    amount_sold = q.getSoldAmountTotal(cursor, store_id, start_date, end_date)
+    profit = amount_sold - getPay(store_id, start_date, end_date)
 
-    return json.jsonify({"profit": profit})
+    return json.jsonify({"profit": profit, "amount_sold": amount_sold})
 
 
 """### Get Inventory
