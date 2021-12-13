@@ -265,6 +265,15 @@ def getInventory():
         data = q.get_inventory_specific_type_products(cursor, store_id, product_ids)
         return json.jsonify(data)
         # return jsonify of table
+
+
+@app.route("/getProducts", methods = ["GET"])
+def getProducts():
+ 
+    cursor = mysql.connect().cursor()
+    data = q.get_all_product_name(cursor);
+
+    return json.jsonify(data)
      
     
 """### Sell

@@ -116,7 +116,23 @@ def get_inventory_general(cursor, store_id):
     return json_data
     # join products and inventory on product_id
     # return table (product_name, sell_price, quantity)
+
+def get_all_product_name(cursor):
+    cursor.execute("SELECT UNIQUE product_name\
+                    FROM Products" + ";")
     
+    row_headers = [x[0] for x in cursor.description]
+    rows = cursor.fetchall()
+    
+    json_data = []
+    for row in rows:
+        json_data.append({
+                            row_headers[0]: row[0],
+                        })
+
+    return json_data
+    # return all different product names
+    # return table (product_name)
 
 def get_inventory_specific_type_products(cursor, store_id, product_ids):
     cursor.execute("SELECT Products.product_name, Products.sell_price, Inventory.quantity \

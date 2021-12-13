@@ -29,6 +29,15 @@ export default {
         }
     },
     methods:{
+        getProductNames(){
+            axios.get(backEndAddress + )
+            .then(res => {
+                console.log(res)
+            })
+            .catch(err => {
+                console.error(err); 
+            })
+        },
         sellProduct(){
             let params = {
                 quantity : this.quantity,
