@@ -196,7 +196,7 @@ def getAllPay():
     start_date = request.args.get("start_date")
     end_date = request.args.get("end_date")
 
-    store_id = session["store_id"]
+    store_id = request.args.get("store_id")
 
     # call getPay()
     total = getPay(store_id, start_date, end_date)

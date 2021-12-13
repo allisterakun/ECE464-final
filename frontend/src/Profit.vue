@@ -9,6 +9,8 @@
         <p></p>
         <h2>Total Profit:</h2>
         <h2>{{profit}}</h2>
+        <h5>Employee Cost:</h5>
+        <h5>{{salary}}</h5>
     </div>
   
 </template>
@@ -23,7 +25,8 @@ export default {
         return {
             start_Date:"",
             end_Date:"",
-            profit:0
+            profit:0,
+            salary:0
         }
     },
     methods: {
@@ -39,6 +42,21 @@ export default {
             .then(res => {
                 console.log(res);
                 self.profit = res.data.profit;
+            })
+            .catch(err => {
+                self.$notify({ type: 'error', text: 'Wrong dates entered!' + err });
+            });
+
+            axios.get(backEndAddress + "/getAllPay", {
+                params: {
+                    store_id: self.$cookie.get("store_id"),
+                    start_date: self.start_Date,
+                    end_date : self.end_Date
+                }
+            })
+            .then(res => {
+                console.log(res);
+                self.salary= res.data.total;
             })
             .catch(err => {
                 self.$notify({ type: 'error', text: 'Wrong dates entered!' + err });
