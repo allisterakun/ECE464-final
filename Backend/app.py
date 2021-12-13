@@ -221,8 +221,8 @@ def getProfit():
     # parse
     # start_date = request.json("start_date")
     # end_date = request.json("end_date")
-    start_date = request.args.get("start_date")
-    end_date = request.args.get("end_date")
+    start_date = request.args.get("start_Date")
+    end_date = request.args.get("end_Date")
     store_id = request.args.get("store_id")
 
     # get all the prices sold within the start and end date - call getPay
