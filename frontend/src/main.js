@@ -15,6 +15,7 @@ import Inventory from './Inventory.vue'
 import Profit from './Profit.vue'
 import Sell from './Sell.vue'
 import Restock from './Restock.vue'
+import Purchases from './Purchases'
 
 
 // Make BootstrapVue available throughout your project
@@ -34,7 +35,8 @@ const routes = [
         { path: 'inventory', component: Inventory },
         { path: 'profit', component: Profit },
         { path: 'sell', component: Sell },
-        { path: 'restock', component: Restock }
+        { path: 'restock', component: Restock },
+        { path: 'purchases', component: Purchases }
       ]
     }
 ]
