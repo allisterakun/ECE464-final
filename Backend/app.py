@@ -68,13 +68,14 @@ def login():
 
     if data:
         # get employee_id, store_id
-        session["employee_id"] = data[0]
-        
+        # session["employee_id"] = data[0]
+        employee_id = data[0]
+
         cursor = mysql.connect().cursor()
-        temp = cursor.execute("SELECT store_id FROM Employees WHERE employee_id = '" + str(session["employee_id"]) + "'")
+        temp = cursor.execute("SELECT store_id FROM Employees WHERE employee_id = '" + str(employee_id) + "'")
         store_id = cursor.fetchone()[0];
 
-        return json.jsonify({"employee_id": session["employee_id"], "store_id": store_id})
+        return json.jsonify({"employee_id": employee_id , "store_id": store_id})
         # msg = "mlem"
         # return render_template("index.html", msg = msg)
     else:
@@ -97,13 +98,14 @@ def homepage():
 """### Logout route
 redirect to login page
 delete the session
-"""
+
 @app.route("/logout")
 def logout():
     session.pop("employee_id", None)
     session.pop("store_id", None)
     return json.jsonify({"statusCode": "200"})
     # return redirect(url_for('login'))
+"""
 
 
 """### Add a timesheet card
