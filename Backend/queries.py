@@ -118,7 +118,7 @@ def get_inventory_general(cursor, store_id):
     # return table (product_name, sell_price, quantity)
 
 def get_all_product_name(cursor):
-    cursor.execute("SELECT UNIQUE product_name\
+    cursor.execute("SELECT product_name\
                     FROM Products" + ";")
     
     row_headers = [x[0] for x in cursor.description]

@@ -28,9 +28,12 @@ export default {
             
         }
     },
+    mounted() {
+        this.getProductNames();
+    },
     methods:{
         getProductNames(){
-            axios.get(backEndAddress + )
+            axios.get(backEndAddress + "/getProducts")
             .then(res => {
                 console.log(res)
             })
