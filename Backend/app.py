@@ -334,7 +334,7 @@ def restock():
     # parse for product_name, quantity
     # _quantity = request.json("quantity")
     # product_name = request.json("product_name")
-    _quantity = request.json["quantity"]
+    _quantity = int(request.json["quantity"])
     product_name = request.json["product_name"]
     
     _store_id = request.json["store_id"]
@@ -352,7 +352,7 @@ def restock():
 
                 conn = mysql.connect()
                 cursor = conn.cursor()
-                q.update_inventory(cursor, _store_id, product_id, quantity + _quantity)
+                q.update_inventory(cursor, _store_id, product_id, int(quantity[0]) + _quantity)
                 conn.commit()
             else:
                 conn = mysql.connect()

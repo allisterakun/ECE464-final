@@ -37,7 +37,7 @@ export default {
 
             }
             let self = this;
-            axios.post(backEndAddress + "/sell",params)
+            axios.post(backEndAddress + "/restock",params)
             .then(res => {
                 self.quantity = 0;
                 self.product_name = "";
