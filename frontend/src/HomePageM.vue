@@ -11,7 +11,8 @@
         <b-nav-item v-if="isManager" href="#/homepage/timesheet">Check Timesheets</b-nav-item>
         <b-nav-item v-if="isManager" href="#/homepage/profit">Check Profit</b-nav-item>
         <b-nav-item v-if="!isManager" href="#/homepage/inventory">Check Inventory</b-nav-item>
-        <b-nav-item v-if="!isManager" href="#/homepage/sell">Sell/Restock</b-nav-item>
+        <b-nav-item v-if="!isManager" href="#/homepage/sell">Sell</b-nav-item>
+        <b-nav-item v-if="!isManager" href="#/homepage/restock">Restock</b-nav-item>
         <b-nav-item v-if="!isManager" href="#">Check Purchase</b-nav-item>
       </b-navbar-nav>
 

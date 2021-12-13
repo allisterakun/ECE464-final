@@ -1,7 +1,7 @@
 <template>
-    <div id="Sell">
+    <div id="Restock">
         <h3>
-            Enter the Product and Quantity for Selling:
+            Enter the Product and Quantity for Restocking:
         </h3>
         <b-form-input v-model="product_name" placeholder="Product Name">
         </b-form-input>
@@ -10,7 +10,7 @@
         </b-form-input>
         <p></p>
 
-        <b-button v-on:click="sellProduct()">Sell</b-button>
+        <b-button v-on:click="restockProduct()">Restock</b-button>
 
     </div>
   
@@ -19,22 +19,21 @@
 <script>
 import axios from 'axios'
 import backEndAddress from './utili.js'
+
 export default {
-    name:"Sell",
+    name:"Restock",
     data() {
         return {
             product_name :"",
-            quantity: 0
-            
+            quantity: 0 
         }
     },
     methods:{
-        sellProduct(){
+        restockProduct(){
             let params = {
                 quantity : this.quantity,
                 product_name : this.product_name,
                 store_id : this.$cookie.get("store_id"),  
-                employee_id : this.$cookie.get("employee_id")
 
             }
             let self = this;
@@ -45,7 +44,7 @@ export default {
                 console.log(res)
             })
             .catch(err => {
-                self.$notify({ type: 'error', text: 'Cannot Sell Product!'+ err });
+                self.$notify({ type: 'error', text: 'Cannot Restock Product!'+ err });
             })
         }
     }

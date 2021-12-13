@@ -282,11 +282,11 @@ def sell():
     # parse for quantity, product_name
     # _quantity = request.json("quantity")
     # product_name = request.json("product_name")
-    _quantity = int(request.args.get("quantity"))
-    product_name = request.args.get("product_name")
+    _quantity = int(request.json["quantity"])
+    product_name = request.json["product_name"]
 
-    _store_id = session["store_id"]
-    _employee_id = session["employee_id"]
+    _store_id =  request.json["store_id"]
+    _employee_id =  request.json["employee_id"]
     
     current_date = datetime.now().date()
 
@@ -313,6 +313,8 @@ def sell():
             cursor = conn.cursor()
             q.update_inventory(cursor, _store_id, product_id, quantity - _quantity)
             conn.commit()
+        else:
+            return json.jsonify({"statusCode": "405"})
 
     # else return error
     else:
@@ -332,10 +334,10 @@ def restock():
     # parse for product_name, quantity
     # _quantity = request.json("quantity")
     # product_name = request.json("product_name")
-    _quantity = request.args.get("quantity")
-    product_name = request.args.get("product_name")
+    _quantity = request.json["quantity"]
+    product_name = request.json["product_name"]
     
-    _store_id = session["store_id"]
+    _store_id = request.json["store_id"]
 
     # lookup the product_id
     if product_name:

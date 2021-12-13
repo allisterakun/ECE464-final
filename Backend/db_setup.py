@@ -6,3 +6,6 @@ def setup():
     os.system("mysql -u root -p" + password + " < .\\schema.sql")
     os.system("mysql -u root -p" + password + " < .\\insert.sql")
     return "success"
+
+if __name__ == "__main__":
+    setup();
