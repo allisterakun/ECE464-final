@@ -117,9 +117,10 @@ def get_inventory_general(cursor, store_id):
     # join products and inventory on product_id
     # return table (product_name, sell_price, quantity)
 
-def get_all_product_name(cursor):
-    cursor.execute("SELECT product_name\
-                    FROM Products" + ";")
+def get_all_product_name(cursor,store_id):
+    cursor.execute("SELECT DISTINCT product_name\
+                    FROM Products JOIN Inventory ON Products.product_id = Inventory.product_id \
+                    WHERE Inventory.store_id = " + str(store_id) + ";");
     
     row_headers = [x[0] for x in cursor.description]
     rows = cursor.fetchall()
@@ -131,7 +132,7 @@ def get_all_product_name(cursor):
                         })
 
     return json_data
-    # return all different product names
+    # return all different product names for the given store inventory
     # return table (product_name)
 
 def get_inventory_specific_type_products(cursor, store_id, product_ids):

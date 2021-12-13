@@ -270,9 +270,11 @@ def getInventory():
 
 @app.route("/getProducts", methods = ["GET"])
 def getProducts():
- 
+    
+    store_id =  request.args.get("store_id")
+
     cursor = mysql.connect().cursor()
-    data = q.get_all_product_name(cursor);
+    data = q.get_all_product_name(cursor,store_id)
 
     return json.jsonify(data)
      
