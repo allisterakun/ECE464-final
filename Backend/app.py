@@ -72,9 +72,9 @@ def login():
         
         cursor = mysql.connect().cursor()
         temp = cursor.execute("SELECT store_id FROM Employees WHERE employee_id = '" + str(session["employee_id"]) + "'")
-        session["store_id"] = json.dumps(temp)
+        store_id = cursor.fetchone()[0];
 
-        return json.jsonify({"employee_id": session["employee_id"], "store_id": session["store_id"]})
+        return json.jsonify({"employee_id": session["employee_id"], "store_id": store_id})
         # msg = "mlem"
         # return render_template("index.html", msg = msg)
     else:
