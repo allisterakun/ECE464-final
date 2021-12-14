@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import Flask, request, json, session, render_template, redirect, url_for, jsonify
 from flaskext.mysql import MySQL
 from dotenv import load_dotenv
@@ -125,16 +125,23 @@ def createTimesheet():
 
     _id = request.json["employee_id"]
     # current_date = datetime.now().date()
-    
-    # insert into db
-    conn = mysql.connect()
-    cursor = conn.cursor()
-    q.add_timesheet(cursor, _id, work_date, clock_in_time, clock_out_time, items_sold)
-    conn.commit()
-    # insert into Timesheet values (1, 2021-12-08, 22:00, 22:00, 12); 
 
-    # return status code
-    return json.jsonify({"statusCode": "200"})
+    FMT = '%H:%M:%S'
+    tdelta = datetime.strptime(clock_out_time, FMT) - datetime.strptime(clock_in_time, FMT)
+    
+    if tdelta > timedelta(0) :
+        # Valid interval
+        # insert into db
+        conn = mysql.connect()
+        cursor = conn.cursor()
+        q.add_timesheet(cursor, _id, work_date, clock_in_time, clock_out_time, items_sold)
+        conn.commit()
+        # insert into Timesheet values (1, 2021-12-08, 22:00, 22:00, 12); 
+
+        # return status code
+        return json.jsonify({"statusCode": "200"})
+    else:
+        return json.jsonify({"statusCode" : "401", "msg":"Wrong Time Interval"})
 
 
 """

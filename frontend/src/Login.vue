@@ -58,6 +58,7 @@ export default {
       })
       .catch(function (error) {
         console.log(error);
+        self.$notify({ type: 'error', text: 'Network Error!' });
       });
 
 

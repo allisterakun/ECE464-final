@@ -79,15 +79,18 @@ export default {
       .then(res => {
 
         console.log(res);
-        self.getMyTimeSheet(this.$cookie.get("employee_id"));
-        self.checkInDate = "";
-        self.checkInTime = "";
-        self.checkOutTime = "";
-        self.soldRecord = "";
-        // self.timeSheetRow = res.data;
+        if(res.data.statusCode != "200"){
+           self.$notify({ type: 'error', text: res.data.msg });
+        }else{
+          self.getMyTimeSheet(this.$cookie.get("employee_id"));
+          self.checkInDate = "";
+          self.checkInTime = "";
+          self.checkOutTime = "";
+          self.soldRecord = "";
+        }
       })
       .catch(err => {
-        self.$notify({ type: 'error', text: 'Please select a different day!' + err });
+        self.$notify({ type: 'error', text: 'Please select a different day! You already submitted a timesheet for today.' + err });
       })
     },
     getAllTimeSheets(start_Date = "2000-1-1", end_Date = "2023-1-1"){
