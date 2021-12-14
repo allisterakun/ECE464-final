@@ -44,8 +44,13 @@ export default {
             })
             .then(res => {
                 console.log(res);
-                self.profit = res.data.profit;
-                self.amount_sold = res.data.amount_sold;
+                if(res.data.profit != null){
+                    self.profit = res.data.profit;
+                    self.amount_sold = res.data.amount_sold;
+                }else{
+                    self.$notify({ type: 'error', text: 'Wrong Dates Entered!' + res.data.msg });
+
+                }
             })
             .catch(err => {
                 self.$notify({ type: 'error', text: 'Wrong dates entered!' + err });

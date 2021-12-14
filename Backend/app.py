@@ -234,13 +234,18 @@ def getProfit():
     end_date = request.args.get("end_Date")
     store_id = request.args.get("store_id")
 
-    # get all the prices sold within the start and end date - call getPay
-        # return the difference, ie the profit and return it, jsonified
-    cursor = mysql.connect().cursor()
-    amount_sold = q.getSoldAmountTotal(cursor, store_id, start_date, end_date)
-    profit = amount_sold - getPay(store_id, start_date, end_date)
+    period = (datetime.strptime(end_date, "%Y-%m-%d") - datetime.strptime(start_date, "%Y-%m-%d")).days
 
-    return json.jsonify({"profit": profit, "amount_sold": amount_sold})
+    if period >= 0:
+        # get all the prices sold within the start and end date - call getPay
+            # return the difference, ie the profit and return it, jsonified
+        cursor = mysql.connect().cursor()
+        amount_sold = q.getSoldAmountTotal(cursor, store_id, start_date, end_date)
+        profit = amount_sold - getPay(store_id, start_date, end_date)
+
+        return json.jsonify({"profit": profit, "amount_sold": amount_sold})
+    else:
+        return json.jsonify({"statusCode" : "401", "msg": "Please Enter a Valid Period!"});
 
 
 """### Get Inventory
