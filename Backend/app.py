@@ -341,7 +341,7 @@ def sell():
             conn.commit()
             return json.jsonify({"statusCode": "200"})
         else:
-            return json.jsonify({"statusCode": "405"})
+            return json.jsonify({"statusCode": "405", "msg":"Insufficient stock to sell!"})
 
     # else return error
     else:
